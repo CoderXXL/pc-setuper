@@ -24,14 +24,13 @@ sudo snap install discord
 
 
 # removing old versions of docker
-sudo apt-get remove docker docker-engine docker.io containerd runc -y
+# sudo apt-get remove docker docker-engine docker.io containerd runc -y
 
 
 # install docker Prerequisites
-sudo apt-get install \
-    ca-certificates \
-    gnupg \
-    lsb-release
+sudo apt-get install ca-certificates -y
+sudo apt-get install gnupg -y
+sudo apt-get install lsb-release -y
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \
@@ -43,9 +42,9 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 
 # post docker installation
-sudo groupadd docker
-sudo usermod -aG docker $USER
-newgrp docker
+# sudo groupadd docker
+# sudo usermod -aG docker $USER
+# newgrp docker
 
 
 # install docker compose v2.4.1
