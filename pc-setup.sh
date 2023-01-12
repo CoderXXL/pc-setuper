@@ -23,45 +23,26 @@ sudo snap install slack --classic
 sudo snap install teams-for-linux
 sudo snap install discord
 
-### install docker Prerequisites
-sudo apt-get install ca-certificates -y
-sudo apt-get install gnupg -y
-sudo apt-get install lsb-release -y
-
+### Docker stuff
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-sudo apt-get update -y
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
-
-
-# post docker installation
-/bin/egrep  -i "^docker:" /etc/group
-if [ $? -eq 0 ]; then
-  sudo usermod -aG docker "$USER"
-  newgrp docker
-else
-  sudo groupadd docker
-  sudo usermod -aG docker "$USER"
-  newgrp docker
-fi
-
-
-### install docker compose v2.4.1
-DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-mkdir -p $DOCKER_CONFIG/cli-plugins
-curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
-chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
-sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
-
 
 ### install docker-compose Linux Standalone
 sudo curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 echo "If the command docker-compose fails after installation, check your path. You can also create a symbolic link to /usr/bin or any other directory in your path."
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt-cache policy docker-ce -y
+sudo apt install docker-ce
+sudo usermod -aG docker ${USER}
 
+mkdir -p ~/.docker/cli-plugins/
+curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+sudo chmod +x ~/.docker/cli-plugins/docker-compose
+
+sudo touch /bin/docker-compose
+sudo echo "docker compose "$@"" >> /bin/docker-compose
 
 ### install chrome
 cd /tmp
