@@ -23,27 +23,6 @@ sudo snap install slack --classic
 sudo snap install teams-for-linux
 sudo snap install discord
 
-### Docker stuff
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-### install docker-compose Linux Standalone
-sudo curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-echo "If the command docker-compose fails after installation, check your path. You can also create a symbolic link to /usr/bin or any other directory in your path."
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt update
-sudo apt-cache policy docker-ce -y
-sudo apt install docker-ce
-sudo usermod -aG docker ${USER}
-
-mkdir -p ~/.docker/cli-plugins/
-curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
-sudo chmod +x ~/.docker/cli-plugins/docker-compose
-
-sudo touch /bin/docker-compose
-sudo echo "docker compose "$@"" >> /bin/docker-compose
-
 ### install chrome
 cd /tmp
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
@@ -56,14 +35,14 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 
 ## add autosuggestions
-read -p "Do you want to add zsh autosuggestions? (Y/n)" want_autosuggestions
+read -p "Do you want to add zsh autosuggestions? (Y/n): " want_autosuggestions
 if [ "$want_autosuggestions" != "n" ]; then
   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
   sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions)/g' ~/.zshrc
 fi
 
 ## add syntax highlighting
-read -p "Do you want to add zsh syntax highlighting? (Y/n)" want_syntax_highlighting
+read -p "Do you want to add zsh syntax highlighting? (Y/n): " want_syntax_highlighting
 if [ "$want_syntax_highlighting" != "n" ]; then
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   sed -i 's/plugins=(git zsh-autosuggestions)/plugins=(git zsh-syntax-highlighting zsh-autosuggestions)/g' ~/.zshrc
@@ -71,30 +50,12 @@ fi
 
 
 ### install nodejs 14.x & yarn
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-sudo apt-get update
+curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash - 
 
 sudo apt-get install nodejs -y
 sudo apt-get install yarn -y
 sudo apt install build-essential -y
 
-
-### post npm installation
-mkdir "${HOME}/.npm-packages"
-npm config set prefix "${HOME}/.npm-packages"
-
-# shellcheck disable=SC2016
-NPM_ZSHRC_ENVS='
-NPM_PACKAGES="${HOME}/.npm-packages"
-export PATH="$PATH:$NPM_PACKAGES/bin"
-# Preserve MANPATH if you already defined it somewhere in your config.
-# Otherwise, fall back to "manpath" so we can inherit from "/etc/manpath".
-export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
-'
-
-if ! grep -q NPM_ZSHRC_ENVS "${HOME}/.zshrc"; then
-  echo NPM_ZSHRC_ENVS >> $HOME/.zshrc
-fi
 
 ### install jetbrains toolbox
 # required for 22.04 lts
@@ -108,3 +69,11 @@ DIR=$(find . -maxdepth 1 -type d -name jetbrains-toolbox-\* -print | head -n1)
 cd $DIR
 ./jetbrains-toolbox
 cd $HOME
+
+echo "Done, exit the script"
+sleep(1)
+echo "."
+sleep(1)
+echo "."
+sleep(1)
+echo "."
