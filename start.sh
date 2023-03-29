@@ -12,6 +12,7 @@ source "./scripts/apt-packages.sh"
 echo "Install docker"
 sleep 1
 # Install docker
+source "./scripts/docker.sh"
 
 echo "Install docker compose (as plugin)"
 sleep 1

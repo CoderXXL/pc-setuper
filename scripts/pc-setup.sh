@@ -1,27 +1,27 @@
 #!/bin/bash
 
-### default install software
-sudo apt-get update -y
-sudo apt-get upgrade -y
-sudo apt-get install git -y
-sudo apt-get install wget -y
-sudo apt-get install php -y
-sudo apt-get install python3-pip -y
-sudo apt-get install curl -y
-sudo apt-get install python3 python3-venv python3-pip -y
-sudo apt-get install terminator -y
-sudo apt-get install lolcat -y
-sudo apt-get install sl -y
-sudo apt-get install zsh -y
-sudo apt-get install pulseaudio-equalizer -y
-sudo apt-get install chrome-gnome-shell -y
-sudo apt-get install vim -y
+#### default install software
+#sudo apt-get update -y
+#sudo apt-get upgrade -y
+#sudo apt-get install git -y
+#sudo apt-get install wget -y
+#sudo apt-get install php -y
+#sudo apt-get install python3-pip -y
+#sudo apt-get install curl -y
+#sudo apt-get install python3 python3-venv python3-pip -y
+#sudo apt-get install terminator -y
+#sudo apt-get install lolcat -y
+#sudo apt-get install sl -y
+#sudo apt-get install zsh -y
+#sudo apt-get install pulseaudio-equalizer -y
+#sudo apt-get install chrome-gnome-shell -y
+#sudo apt-get install vim -y
 
-## snap stuff
-sudo snap install --classic code
-sudo snap install slack --classic
-sudo snap install teams-for-linux
-sudo snap install discord
+### snap stuff
+#sudo snap install --classic code
+#sudo snap install slack --classic
+#sudo snap install teams-for-linux
+#sudo snap install discord
 
 ### install chrome
 cd /tmp
